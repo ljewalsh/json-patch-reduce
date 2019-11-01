@@ -5,5 +5,5 @@ export interface Operation {
 }
 
 export interface OrganisedPatch {
-    [ path: string ]: Operation[] | OrganisedPatch
+    [ path: string ]: Operation[] 
 }
