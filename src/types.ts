@@ -29,7 +29,7 @@ export type Operation = RemoveOperation | AddOperation | ReplaceOperation
 export type Patch = Operation[]
 
 export interface PathLogic {
-    [ property: string ]: string
+    [ property: string ]: Record<string, OPERATION_TYPE> | OPERATION_TYPE
 }
 
 export interface PathValue {

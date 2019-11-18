@@ -16,11 +16,11 @@ test("returns expected logic and value when the patch includes a lone replace op
     const { pathLogic, pathValue } = constructPathData(patch)
 
     const expectedLogic = {
-        [ "/foo" ]: REPLACE
+        foo: REPLACE
     }
 
     const expectedPathValue = {
-        [ "/foo" ]: "baz"
+        foo: "baz"
     }
 
     t.deepEqual(pathLogic, expectedLogic)
@@ -38,7 +38,7 @@ test("returns expected logic when the patch includes a lone remove operation", t
     const { pathLogic, pathValue } = constructPathData(patch)
 
     const expectedLogic = {
-        [ "/foo" ]: REMOVE
+        foo: REMOVE
     }
 
     const expectedPathValue = {}
@@ -59,10 +59,10 @@ test("returns expected logic when the patch includes a lone add operation", t =>
     const { pathLogic, pathValue } = constructPathData(patch)
 
     const expectedLogic = {
-        [ "/foo" ]: ADD
+        foo: ADD
     }
     const expectedPathValue = {
-        [ "/foo" ]: "baz"
+        foo: "baz"
     }
 
     t.deepEqual(pathLogic, expectedLogic)
@@ -107,7 +107,7 @@ test("returns expected logic when the patch includes a replace then remove opera
     const { pathLogic, pathValue } = constructPathData(patch)
 
     const expectedLogic = {
-        "/foo": REMOVE
+        foo: REMOVE
     }
     const expectedPathValue = {}
 
@@ -132,10 +132,10 @@ test("returns expected logic when the patch includes an add then a replace opera
     const { pathLogic, pathValue } = constructPathData(patch)
 
     const expectedLogic = {
-        "/foo": ADD_REPLACE
+        foo: ADD_REPLACE
     }
     const expectedPathValue = {
-        [ "/foo" ]: "updatedValue"
+        foo: "updatedValue"
     }
 
     t.deepEqual(pathLogic, expectedLogic)
@@ -181,7 +181,7 @@ test("returns expected logic when the patch includes an replace then a remove op
     const { pathLogic, pathValue } = constructPathData(patch)
 
     const expectedLogic = {
-        "/foo": REMOVE
+        foo: REMOVE
     }
     const expectedPathValue = {}
 
