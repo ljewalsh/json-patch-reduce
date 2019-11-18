@@ -3,10 +3,13 @@ import { AddOperation, ReplaceOperation, OPERATION_TYPE, PathLogic, PathValue, O
 
 const { ADD, REMOVE, REPLACE, ADD_REPLACE } = OPERATION_TYPE
 
-const dissociatePath = (pathLogic: PathLogic, pathValue: PathValue, path: string) => ({
-    pathLogic: dissoc(path, pathLogic) as PathLogic,
-    pathValue: dissoc(path, pathValue) as PathValue
-})
+const dissociatePath = (pathLogic: PathLogic, pathValue: PathValue, path: string) => {
+    
+    return {
+        pathLogic: dissoc(path, pathLogic) as PathLogic,
+        pathValue: dissoc(path, pathValue) as PathValue
+    }
+}
 
 interface Options {
     operation: Operation,

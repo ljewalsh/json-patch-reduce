@@ -1,5 +1,5 @@
 import test from 'ava'
-import { OPERATION_TYPE, RemoveOperation, AddOperation, ReplaceOperation } from '../types'
+import { Patch, OPERATION_TYPE, RemoveOperation, AddOperation, ReplaceOperation } from '../types'
 import reducePatch from '../'
 
 const { ADD, REPLACE, REMOVE, ADD_REPLACE } = OPERATION_TYPE
@@ -30,11 +30,15 @@ test('A remove-operation is stripped out when a later add-operation conflicts it
     t.deepEqual(expectedPatch, reducedPatch)
 })
 
-test('A remove operation with nested paths is handled correctly', t=> {
+test.only('A remove operation with nested paths strips out all add-operations within the path', t=> {
     const patch = [
-        { op: REMOVE, path: "/foo/bar" } as RemoveOperation
+        { op: ADD, path: "/foo", value: "bar" } as AddOperation,
+        { op: ADD, path: "/foo/bar", value: "baz" } as AddOperation,
+        { op: REMOVE, path: "/foo" } as RemoveOperation
     ]
 
+    const expectedPatch: Patch = []
     const reducedPatch = reducePatch(patch)
-    t.deepEqual(patch, reducedPatch)
+    console.dir({ reducedPatch }, { depth: null })
+    t.deepEqual(expectedPatch, reducedPatch)
 })
