@@ -9,14 +9,15 @@ const reducePatch = (originalPatch: Patch): Patch  => {
     const paths = keys(pathLogic) as Path[]
     return paths.map((path: string) => {
         const logic = pathLogic[path]
+        const formattedPath = '/' + path
         switch (logic){
             case ADD:
             case ADD_REPLACE:
-                return { op: ADD, path, value: pathValue[path] }
+                return { op: ADD, path: formattedPath, value: pathValue[path] }
             case REMOVE:
-                return { op: REMOVE, path }
+                return { op: REMOVE, path: formattedPath }
             case REPLACE:
-                return { op: REPLACE, path, value: pathValue[path]}
+                return { op: REPLACE, path: formattedPath, value: pathValue[path]}
             default:
                 throw Error(`Did not recognise pathLogic ${logic}`)
     }

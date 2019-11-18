@@ -10,7 +10,6 @@ const constructPathData = (patch: Patch, pathLogic: PathLogic = {}, pathValue: P
         const { pathLogic: newLogic, pathValue: newValue } = evaluatePath({ pathLogic, pathValue, operation }) 
         return constructPathData(patch, newLogic, newValue)
     }
-    console.log(pathLogic)
     return {
         pathLogic,
         pathValue
