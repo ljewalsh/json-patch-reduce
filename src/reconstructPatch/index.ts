@@ -1,12 +1,17 @@
 import { map, path } from "ramda"
 import getNestedPaths from "../getNestedPaths"
-import { OPERATION_TYPE, Patch, Path, PathData, PathLogic } from "../types"
+import { OPERATION_TYPE, Patch, Path, PathLogic, PathValues } from "../types"
 import deconstructNestedPaths from "./deconstructNestedPaths"
 
 const { ADD, ADD_REPLACE, REMOVE, REPLACE, MOVE } = OPERATION_TYPE
 
-const reconstructPatchFromPathData = ({ pathLogic, pathValues }: PathData): Patch  => {
-    const deconstructedPaths = deconstructNestedPaths(pathLogic)
+interface Options {
+    pathLogic: PathLogic
+    pathValues: PathValues
+}
+
+const reconstructPatchFromPathData = ({ pathLogic, pathValues }: Options): Patch  => {
+    const deconstructedPaths = deconstructNestedPaths({ pathLogic })
     return map((deconstructedPath: string[]) => {
         const logic = path(deconstructedPath, pathLogic)
         const formattedPath = "/" + deconstructedPath.join("/")

@@ -1,8 +1,8 @@
 import test from "ava"
 import reconstructPatch from "../../reconstructPatch"
-import { AddOperation, OPERATION_TYPE, PathLogic, PathValues, RemoveOperation, ReplaceOperation } from "../../types"
+import { AddOperation, MoveOperation, OPERATION_TYPE, PathLogic, PathValues, RemoveOperation, ReplaceOperation } from "../../types"
 
-const { ADD, REMOVE, REPLACE, ADD_REPLACE } = OPERATION_TYPE
+const { ADD, REMOVE, REPLACE, ADD_REPLACE, MOVE } = OPERATION_TYPE
 
 test("Empty pathLogic and pathValuess evaluates to an empty patch", (t) => {
     const pathLogic: PathLogic = {}
@@ -71,6 +71,28 @@ test("pathLogic properties with the remove value evaluate to a remove operation"
     t.deepEqual(reconstructedPatch, expectedPatch)
 })
 
+test("pathLogic properties with the move value evaluate to a move operation", (t) => {
+    const pathLogic: PathLogic  = {
+        foo: MOVE,
+    }
+
+    const pathValues: PathValues = {
+        foo: "/bar",
+    }
+
+    const expectedPatch = [{
+        from: "/bar",
+        op: MOVE,
+        path: "/foo",
+    } as MoveOperation ]
+
+    const reconstructedPatch = reconstructPatch({
+        pathLogic, pathValues,
+    })
+
+    t.deepEqual(reconstructedPatch, expectedPatch)
+})
+
 test("pathLogic properties with the add_replace value evaluate to a add operation with the correct value", (t) => {
     const pathLogic: PathLogic  = {
         foo: ADD_REPLACE,
@@ -106,6 +128,30 @@ test("nested paths are handled correctly", (t) => {
 
     const expectedPatch = [{
         op: ADD, path: "/foo/bar", value: "baz",
+    } as AddOperation ]
+
+    const reconstructedPatch = reconstructPatch({
+        pathLogic, pathValues,
+    })
+
+    t.deepEqual(reconstructedPatch, expectedPatch)
+})
+
+test.only("paths with arrays are handled correctly", (t) => {
+    const pathLogic: PathLogic  = {
+        foo: {
+            bar: [ "one", ADD ],
+        },
+    }
+
+    const pathValues: PathValues = {
+        foo: {
+            bar: ["one", "two"],
+        },
+    }
+
+    const expectedPatch = [{
+        op: ADD, path: "/foo/1", value: "two",
     } as AddOperation ]
 
     const reconstructedPatch = reconstructPatch({

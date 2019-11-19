@@ -54,7 +54,7 @@ export type Operation = RemoveOperation |
 export type Patch = Operation[]
 
 export interface PathLogic {
-    [ property: string ]: Record<string, OPERATION_TYPE> | OPERATION_TYPE
+    [ property: string ]: Record<string, any> | OPERATION_TYPE
 }
 
 export interface PathValues {

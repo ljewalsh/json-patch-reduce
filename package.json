@@ -26,7 +26,7 @@
       "ts-node/register"
     ],
     "files": [
-      "src/**/*test.ts",
+      "src/tests/reconstructPatch/index.test.ts",
       "!dist/"
     ]
   },
