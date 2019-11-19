@@ -1,9 +1,8 @@
 import test from 'ava'
-import { OPERATION_TYPE } from '../types'
-import deconstructNestedPaths from '../deconstructNestedPaths'
+import { OPERATION_TYPE } from '../../types'
+import deconstructNestedPaths from '../../reconstructPatch/deconstructNestedPaths'
 
 const { ADD, REMOVE } = OPERATION_TYPE
-
 
 test('Returns a simple path as is', t=> {
     const pathLogic = {

@@ -1,5 +1,5 @@
 import { keys, concat } from 'ramda'
-import { PathLogic, Path } from './types'
+import { PathLogic, Path } from '../types'
 
 type DeconstructedPath = string[] 
 

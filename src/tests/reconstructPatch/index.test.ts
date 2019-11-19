@@ -1,6 +1,6 @@
 import test from 'ava'
-import { OPERATION_TYPE, AddOperation, ReplaceOperation, RemoveOperation, PathValues, PathLogic } from '../types'
-import reconstructPatchFromPathData from '../reconstructPatchFromPathData'
+import { OPERATION_TYPE, AddOperation, ReplaceOperation, RemoveOperation, PathValues, PathLogic } from '../../types'
+import reconstructPatch from '../../reconstructPatch'
 
 const { ADD, REMOVE, REPLACE, ADD_REPLACE } = OPERATION_TYPE
 
@@ -8,7 +8,7 @@ test('Empty pathLogic and pathValuess evaluates to an empty patch', t => {
     const pathLogic: PathLogic = {}
     const pathValues: PathValues = {}
 
-    const reconstructedPatch = reconstructPatchFromPathData({ pathLogic, pathValues })
+    const reconstructedPatch = reconstructPatch({ pathLogic, pathValues })
     
     t.deepEqual(reconstructedPatch, [])
 })
@@ -26,7 +26,7 @@ test('pathLogic properties  with the add value evaluate to a add-operation with 
         op: ADD, path: '/foo', value: 'bar' 
     } as AddOperation ]
 
-    const reconstructedPatch = reconstructPatchFromPathData({
+    const reconstructedPatch = reconstructPatch({
         pathLogic, pathValues
     })
 
@@ -46,7 +46,7 @@ test('pathLogic properties with the replace value evaluate to a replace-operatio
         op: REPLACE, path: '/foo', value: 'bar' 
     } as ReplaceOperation ]
 
-    const reconstructedPatch = reconstructPatchFromPathData({
+    const reconstructedPatch = reconstructPatch({
         pathLogic, pathValues
     })
 
@@ -64,7 +64,7 @@ test('pathLogic properties with the remove value evaluate to a remove operation'
         op: REMOVE, path: '/foo' 
     } as RemoveOperation ]
 
-    const reconstructedPatch = reconstructPatchFromPathData({
+    const reconstructedPatch = reconstructPatch({
         pathLogic, pathValues
     })
 
@@ -84,7 +84,7 @@ test('pathLogic properties with the add_replace value evaluate to a add operatio
         op: ADD, path: '/foo', value: 'bar' 
     } as AddOperation ]
 
-    const reconstructedPatch = reconstructPatchFromPathData({
+    const reconstructedPatch = reconstructPatch({
         pathLogic, pathValues
     })
 
@@ -108,7 +108,7 @@ test('nested paths are handled correctly', t => {
         op: ADD, path: '/foo/bar', value: 'baz' 
     } as AddOperation ]
 
-    const reconstructedPatch = reconstructPatchFromPathData({
+    const reconstructedPatch = reconstructPatch({
         pathLogic, pathValues
     })
 

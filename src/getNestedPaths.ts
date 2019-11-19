@@ -1,4 +1,4 @@
-import { Path } from '../types'
+import { Path } from './types'
 
 const getNestedPaths = (path: Path) => {
     return path.split('/').slice(1)

@@ -1,9 +1,7 @@
-import { Patch, Operation, PathLogic, PathValues, OPERATION_TYPE, PathData } from '../types'
-import getNestedPaths from './getNestedPaths'
+import { Patch, Operation, PathLogic, PathValues, PathData } from '../types'
+import getNestedPaths from './../getNestedPaths'
 import evaluatePathLogic from './evaluatePathLogic'
 import evaluatePathValues from './evaluatePathValues'
-
-const { ADD, REMOVE, REPLACE, ADD_REPLACE } = OPERATION_TYPE
 
 const constructPathData = (patch: Patch, pathLogic: PathLogic = {}, pathValues: PathValues = {}): PathData => {
     while (patch.length > 0){
