@@ -4,6 +4,7 @@
   "description": "A simple library for reducing the size of json patches",
   "main": "dist/index.ts",
   "scripts": {
+    "lint": "tslint -c tslint.json 'src/**/*.ts'",
     "build": "./node_modules/.bin/tsc",
     "test": "NODE_ENV=test_local ava --verbose"
   },
@@ -13,6 +14,7 @@
     "@types/ramda": "^0.26.33",
     "ava": "^2.4.0",
     "ts-node": "^8.4.1",
+    "tslint": "^5.20.1",
     "typescript": "^3.6.4"
   },
   "ava": {

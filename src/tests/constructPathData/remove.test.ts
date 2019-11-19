@@ -1,21 +1,21 @@
 import test from "ava"
-import { OPERATION_TYPE, AddOperation, RemoveOperation, ReplaceOperation, MoveOperation } from "../../types"
 import constructPathData from "../../constructPathData"
+import { AddOperation, MoveOperation, OPERATION_TYPE, RemoveOperation, ReplaceOperation } from "../../types"
 
 const { ADD, REPLACE, REMOVE, ADD_REPLACE, MOVE } = OPERATION_TYPE
 
-test("returns expected logic when the patch includes a lone remove operation", t => {
+test("returns expected logic when the patch includes a lone remove operation", (t) => {
     const patch = [
         {
             op: REMOVE,
             path: "/foo",
-            } as RemoveOperation
+            } as RemoveOperation,
     ]
 
     const { pathLogic, pathValues } = constructPathData(patch)
 
     const expectedLogic = {
-        foo: REMOVE
+        foo: REMOVE,
     }
 
     const expectedPathValues = {}
@@ -24,23 +24,23 @@ test("returns expected logic when the patch includes a lone remove operation", t
     t.deepEqual(pathValues, expectedPathValues)
 })
 
-test("returns expected logic when the patch includes a replace then remove operation", t => {
+test("returns expected logic when the patch includes a replace then remove operation", (t) => {
     const patch = [
         {
             op: REPLACE,
             path: "/foo",
-            value: "baz"
+            value: "baz",
         } as ReplaceOperation,
         {
             op: REMOVE,
             path: "/foo",
-        } as RemoveOperation
+        } as RemoveOperation,
     ]
 
     const { pathLogic, pathValues } = constructPathData(patch)
 
     const expectedLogic = {
-        foo: REMOVE
+        foo: REMOVE,
     }
     const expectedPathValues = {}
 
@@ -48,7 +48,7 @@ test("returns expected logic when the patch includes a replace then remove opera
     t.deepEqual(pathValues, expectedPathValues)
 })
 
-test("returns expected logic when the patch includes an remove then an add operation", t => {
+test("returns expected logic when the patch includes an remove then an add operation", (t) => {
     const patch = [
         {
             op: REMOVE,
@@ -57,7 +57,7 @@ test("returns expected logic when the patch includes an remove then an add opera
         {
             op: ADD,
             path: "/foo",
-            value: "baz"
+            value: "baz",
         } as AddOperation,
     ]
 

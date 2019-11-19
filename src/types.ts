@@ -1,51 +1,55 @@
 export enum OPERATION_TYPE {
-    ADD = 'add',
-    REMOVE = 'remove',
-    REPLACE = 'replace',
-    ADD_REPLACE = 'add-replace',
-    MOVE = 'move',
-    REPLACE_MOVE = 'replace-move',
-    COPY = 'copy'
+    ADD = "add",
+    REMOVE = "remove",
+    REPLACE = "replace",
+    ADD_REPLACE = "add-replace",
+    MOVE = "move",
+    COPY = "copy",
 }
 
 export type Path = string
 
 export interface RemoveOperation {
-    op: OPERATION_TYPE.REMOVE,
+    op: OPERATION_TYPE.REMOVE
     path: Path
 }
 
 export interface AddOperation {
-    op: OPERATION_TYPE.ADD,
-    path: Path,
+    op: OPERATION_TYPE.ADD
+    path: Path
     value: any
 }
 
 export interface AddReplaceOperation {
-    op: OPERATION_TYPE.ADD_REPLACE,
-    path: Path,
+    op: OPERATION_TYPE.ADD_REPLACE
+    path: Path
     value: any
 }
 
 export interface ReplaceOperation {
-    op: OPERATION_TYPE.REPLACE,
-    path: Path,
+    op: OPERATION_TYPE.REPLACE
+    path: Path
     value: any
 }
 
 export interface MoveOperation {
-    op: OPERATION_TYPE.MOVE,
-    path: Path,
-    'from': string
+    op: OPERATION_TYPE.MOVE
+    path: Path
+    "from": string
 }
 
 export interface CopyOperation {
-    op: OPERATION_TYPE.COPY,
-    path: Path,
-    'from': string
+    op: OPERATION_TYPE.COPY
+    path: Path
+    "from": string
 }
 
-export type Operation = RemoveOperation | AddOperation | ReplaceOperation | MoveOperation | CopyOperation | AddReplaceOperation
+export type Operation = RemoveOperation |
+    AddOperation |
+    ReplaceOperation |
+    MoveOperation |
+    CopyOperation |
+    AddReplaceOperation
 
 export type Patch = Operation[]
 
@@ -58,6 +62,6 @@ export interface PathValues {
 }
 
 export interface PathData {
-    pathValues: PathValues,
+    pathValues: PathValues
     pathLogic: PathLogic
 }

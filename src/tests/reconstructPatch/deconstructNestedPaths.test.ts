@@ -1,39 +1,39 @@
-import test from 'ava'
-import { OPERATION_TYPE } from '../../types'
-import deconstructNestedPaths from '../../reconstructPatch/deconstructNestedPaths'
+import test from "ava"
+import deconstructNestedPaths from "../../reconstructPatch/deconstructNestedPaths"
+import { OPERATION_TYPE } from "../../types"
 
 const { ADD, REMOVE } = OPERATION_TYPE
 
-test('Returns a simple path as is', t=> {
+test("Returns a simple path as is", (t) => {
     const pathLogic = {
-        'foo': ADD
+        foo: ADD,
     }
 
     const deconstructedPaths = deconstructNestedPaths(pathLogic)
-    t.deepEqual(deconstructedPaths, [['foo']])
+    t.deepEqual(deconstructedPaths, [["foo"]])
 })
 
-test('Can deconstruct a simple nested path', t=> {
+test("Can deconstruct a simple nested path", (t) => {
     const pathLogic = {
-        'foo': {
-            'bar': ADD
-        }
+        foo: {
+            bar: ADD,
+        },
     }
 
     const deconstructedPath = deconstructNestedPaths(pathLogic)
 
-    t.deepEqual(deconstructedPath, [['foo','bar']])
+    t.deepEqual(deconstructedPath, [["foo", "bar"]])
 })
 
-test('Can deconstruct a complex nested path', t=> {
+test("Can deconstruct a complex nested path", (t) => {
     const pathLogic = {
-        'foo': {
-            'bar': ADD,
-            'baz': REMOVE
-        }
+        foo: {
+            bar: ADD,
+            baz: REMOVE,
+        },
     }
 
     const deconstructedPath = deconstructNestedPaths(pathLogic)
 
-    t.deepEqual(deconstructedPath, [['foo','bar'], ['foo', 'baz']])
+    t.deepEqual(deconstructedPath, [["foo", "bar"], ["foo", "baz"]])
 })

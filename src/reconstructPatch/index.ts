@@ -1,15 +1,16 @@
-import { map, path } from 'ramda'
-import { PathData, Path, Patch, OPERATION_TYPE, PathLogic } from '../types'
-import deconstructNestedPaths from './deconstructNestedPaths'
+import { map, path } from "ramda"
+import getNestedPaths from "../getNestedPaths"
+import { OPERATION_TYPE, Patch, Path, PathData, PathLogic } from "../types"
+import deconstructNestedPaths from "./deconstructNestedPaths"
 
 const { ADD, ADD_REPLACE, REMOVE, REPLACE, MOVE } = OPERATION_TYPE
 
-const reconstructPatchFromPathData = ({ pathLogic, pathValues }: PathData): Patch => {
+const reconstructPatchFromPathData = ({ pathLogic, pathValues }: PathData): Patch  => {
     const deconstructedPaths = deconstructNestedPaths(pathLogic)
     return map((deconstructedPath: string[]) => {
         const logic = path(deconstructedPath, pathLogic)
-        const formattedPath = '/' + deconstructedPath.join('/')
-        switch (logic){
+        const formattedPath = "/" + deconstructedPath.join("/")
+        switch (logic) {
             case ADD:
             case ADD_REPLACE:
                 return { op: ADD, path: formattedPath, value: path(deconstructedPath, pathValues) }
@@ -19,7 +20,7 @@ const reconstructPatchFromPathData = ({ pathLogic, pathValues }: PathData): Patc
                 return { op: REPLACE, path: formattedPath, value: path(deconstructedPath, pathValues)}
             case MOVE:
                 return {
-                    op: MOVE, path: formattedPath, from: path(deconstructedPath, pathValues) as string
+                    from: path(deconstructedPath, pathValues) as string, op: MOVE, path: formattedPath,
                 }
             default:
                 throw Error(`Did not recognise pathLogic ${logic}`)

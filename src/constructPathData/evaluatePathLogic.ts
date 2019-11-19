@@ -1,27 +1,29 @@
-import { dissocPath, assocPath, path as ramPath } from 'ramda'
-import { AddOperation, ReplaceOperation, OPERATION_TYPE, PathLogic, Operation } from '../types'
-import getNestedPaths from '../getNestedPaths'
+import { assocPath, dissocPath, path as ramPath } from "ramda"
+import getNestedPaths from "../getNestedPaths"
+import { AddOperation, Operation, OPERATION_TYPE, PathLogic, ReplaceOperation } from "../types"
 
-const { ADD, REMOVE, REPLACE, ADD_REPLACE, MOVE, REPLACE_MOVE, COPY } = OPERATION_TYPE
+const { ADD, REMOVE, REPLACE, ADD_REPLACE, MOVE, COPY } = OPERATION_TYPE
 
 interface Options {
-    path: string[],
-    operation: Operation,
+    path: string[]
+    operation: Operation
     pathLogic: PathLogic
 }
 
 interface HandleOptions {
-    currentLogic: OPERATION_TYPE,
-    path: string[],
+    currentLogic: OPERATION_TYPE
+    path: string[]
     pathLogic: PathLogic
 }
 
-interface MoveHandleOptions extends HandleOptions {
-    fromValue: string
+interface HandleMoveOptions {
+    path: string[]
+    pathLogic: PathLogic
+    fromPath: string
 }
 
 const handleAdd = ({ currentLogic, path, pathLogic }: HandleOptions): PathLogic => {
-    switch(currentLogic){
+    switch (currentLogic) {
         case REMOVE:
             return dissocPath(path, pathLogic)
         default:
@@ -29,19 +31,19 @@ const handleAdd = ({ currentLogic, path, pathLogic }: HandleOptions): PathLogic 
     }
 }
 
-const handleRemove = ({ currentLogic, path, pathLogic }:HandleOptions): PathLogic => {
-    switch(currentLogic){
+const handleRemove = ({ currentLogic, path, pathLogic }: HandleOptions): PathLogic => {
+    switch (currentLogic) {
         case ADD:
         case ADD_REPLACE:
         case COPY:
             return dissocPath(path, pathLogic)
-        default: 
+        default:
             return assocPath(path, REMOVE, pathLogic)
     }
 }
 
 const handleReplace = ({ currentLogic, path, pathLogic }: HandleOptions): PathLogic => {
-    switch(currentLogic){
+    switch (currentLogic) {
         case ADD:
             return assocPath(path, ADD_REPLACE, pathLogic)
         default:
@@ -49,15 +51,14 @@ const handleReplace = ({ currentLogic, path, pathLogic }: HandleOptions): PathLo
     }
 }
 
-const handleMove = ({ currentLogic, path, pathLogic,fromValue }: MoveHandleOptions): PathLogic => {
-    switch(currentLogic){
+const handleMove = ({ path, pathLogic, fromPath }: HandleMoveOptions): PathLogic => {
+    const nestedFrom = getNestedPaths(fromPath)
+    const currentLogic = ramPath(nestedFrom, pathLogic)
+    switch (currentLogic) {
         case ADD:
         case ADD_REPLACE:
-            const nestedFrom = getNestedPaths(fromValue)
             const removed: PathLogic = dissocPath(nestedFrom, pathLogic)
             return assocPath(path, currentLogic, removed)
-        case REPLACE:
-            return assocPath(path, REPLACE_MOVE, pathLogic)
         default:
             return assocPath(path, MOVE, pathLogic)
     }
@@ -65,9 +66,9 @@ const handleMove = ({ currentLogic, path, pathLogic,fromValue }: MoveHandleOptio
 
 const evaluatePathLogic = (options: Options): PathLogic => {
     const { operation, pathLogic, path } = options
-    const currentLogic= ramPath(path, pathLogic) as OPERATION_TYPE
+    const currentLogic = ramPath(path, pathLogic) as OPERATION_TYPE
     const handleOptions = { currentLogic, path, pathLogic }
-    switch (operation.op){
+    switch (operation.op) {
         case ADD:
             return handleAdd(handleOptions)
         case REMOVE:
@@ -75,7 +76,7 @@ const evaluatePathLogic = (options: Options): PathLogic => {
         case REPLACE:
             return handleReplace(handleOptions)
         case MOVE:
-            return handleMove({ ...handleOptions, fromValue: operation['from'] })
+            return handleMove({ path, pathLogic, fromPath: operation.from })
         default:
             throw new Error(`Unexpected operation ${operation}`)
     }
