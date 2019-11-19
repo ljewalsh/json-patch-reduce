@@ -23,3 +23,16 @@ reduced path:
 ]
 ```
 
+Simplification example:
+
+```
+[
+        { op: "add", path: "/foo", value: "baz" },
+        { op: "replace", path: "/foo", value: "bar" },
+]
+
+[
+        { op: "add", path: "/foo", value: "bar" },
+]
+```
+
