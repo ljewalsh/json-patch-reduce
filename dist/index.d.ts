@@ -1,3 +1,3 @@
-import { Operation } from './types';
-declare const reducePath: (patch: Operation[]) => void;
-export default reducePath;
+import { Patch } from './types';
+declare const reducePatch: (originalPatch: Patch) => Patch;
+export default reducePatch;

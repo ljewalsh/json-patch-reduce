@@ -1,14 +1,14 @@
 import test from 'ava'
-import { OPERATION_TYPE, AddOperation, ReplaceOperation, RemoveOperation, PathValue, PathLogic } from '../types'
+import { OPERATION_TYPE, AddOperation, ReplaceOperation, RemoveOperation, PathValues, PathLogic } from '../types'
 import reconstructPatchFromPathData from '../reconstructPatchFromPathData'
 
 const { ADD, REMOVE, REPLACE, ADD_REPLACE } = OPERATION_TYPE
 
-test('Empty pathLogic and pathValues evaluates to an empty patch', t => {
+test('Empty pathLogic and pathValuess evaluates to an empty patch', t => {
     const pathLogic: PathLogic = {}
-    const pathValue: PathValue = {}
+    const pathValues: PathValues = {}
 
-    const reconstructedPatch = reconstructPatchFromPathData({ pathLogic, pathValue })
+    const reconstructedPatch = reconstructPatchFromPathData({ pathLogic, pathValues })
     
     t.deepEqual(reconstructedPatch, [])
 })
@@ -18,7 +18,7 @@ test('pathLogic properties  with the add value evaluate to a add-operation with 
         foo: ADD
     }
 
-    const pathValue: PathValue = {
+    const pathValues: PathValues = {
         foo: 'bar'
     }
 
@@ -27,7 +27,7 @@ test('pathLogic properties  with the add value evaluate to a add-operation with 
     } as AddOperation ]
 
     const reconstructedPatch = reconstructPatchFromPathData({
-        pathLogic, pathValue
+        pathLogic, pathValues
     })
 
     t.deepEqual(reconstructedPatch, expectedPatch)
@@ -38,7 +38,7 @@ test('pathLogic properties with the replace value evaluate to a replace-operatio
         foo: REPLACE
     }
 
-    const pathValue: PathValue = {
+    const pathValues: PathValues = {
         foo: 'bar'
     }
 
@@ -47,7 +47,7 @@ test('pathLogic properties with the replace value evaluate to a replace-operatio
     } as ReplaceOperation ]
 
     const reconstructedPatch = reconstructPatchFromPathData({
-        pathLogic, pathValue
+        pathLogic, pathValues
     })
 
     t.deepEqual(reconstructedPatch, expectedPatch)
@@ -58,14 +58,14 @@ test('pathLogic properties with the remove value evaluate to a remove operation'
         foo: REMOVE
     }
 
-    const pathValue: PathValue = {}
+    const pathValues: PathValues = {}
 
     const expectedPatch = [{
         op: REMOVE, path: '/foo' 
     } as RemoveOperation ]
 
     const reconstructedPatch = reconstructPatchFromPathData({
-        pathLogic, pathValue
+        pathLogic, pathValues
     })
 
     t.deepEqual(reconstructedPatch, expectedPatch)
@@ -76,7 +76,7 @@ test('pathLogic properties with the add_replace value evaluate to a add operatio
         foo: ADD_REPLACE
     }
 
-    const pathValue: PathValue = {
+    const pathValues: PathValues = {
         foo: 'bar'
     }
 
@@ -85,7 +85,7 @@ test('pathLogic properties with the add_replace value evaluate to a add operatio
     } as AddOperation ]
 
     const reconstructedPatch = reconstructPatchFromPathData({
-        pathLogic, pathValue
+        pathLogic, pathValues
     })
 
     t.deepEqual(reconstructedPatch, expectedPatch)
@@ -98,7 +98,7 @@ test('nested paths are handled correctly', t => {
         }
     }
 
-    const pathValue: PathValue = {
+    const pathValues: PathValues = {
         foo: {
             bar: 'baz'
         }
@@ -109,7 +109,7 @@ test('nested paths are handled correctly', t => {
     } as AddOperation ]
 
     const reconstructedPatch = reconstructPatchFromPathData({
-        pathLogic, pathValue
+        pathLogic, pathValues
     })
 
     t.deepEqual(reconstructedPatch, expectedPatch)
