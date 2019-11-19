@@ -26,11 +26,13 @@ reduced path:
 Simplification example:
 
 ```
+original path:
 [
         { op: "add", path: "/foo", value: "baz" },
         { op: "replace", path: "/foo", value: "bar" },
 ]
 
+reduced path:
 [
         { op: "add", path: "/foo", value: "bar" },
 ]
