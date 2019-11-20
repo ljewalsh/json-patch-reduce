@@ -1,3 +1,4 @@
+import { contains } from "ramda"
 import {
     Operation,
     Patch,
@@ -9,7 +10,14 @@ import getNestedPaths from "./../getNestedPaths"
 import evaluatePathLogic from "./evaluatePathLogic"
 import evaluatePathValues from "./evaluatePathValues"
 
-const constructPathData = (patch: Patch, pathLogic: PathLogic = {}, pathValues: PathValues = {}): PathData => {
+interface Options {
+    patch: Patch,
+    pathLogic?: PathLogic,
+    pathValues?: PathValues,
+    paths?: string[][]
+}
+
+const constructPathData = ({ patch, pathLogic = {}, pathValues = {}, paths = []}: Options): PathData => {
     while (patch.length > 0) {
         const operation = patch.shift() as Operation
         const nestedPaths = getNestedPaths(operation.path)
@@ -20,11 +28,20 @@ const constructPathData = (patch: Patch, pathLogic: PathLogic = {}, pathValues: 
             pathLogic: updatedPathLogic,
             pathValues,
         })
-        return constructPathData(patch, updatedPathLogic, updatedPathValues)
+        if (contains(nestedPaths, paths) === false) {
+            paths.push(nestedPaths)
+        }
+        return constructPathData({
+            patch,
+            pathLogic: updatedPathLogic,
+            pathValues: updatedPathValues,
+            paths,
+        })
     }
     return {
         pathLogic,
         pathValues,
+        paths,
     }
 }
 

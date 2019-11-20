@@ -13,7 +13,7 @@ test("returns expected logic when the patch includes a lone add operation", (t) 
         } as AddOperation,
     ]
 
-    const { pathLogic, pathValues } = constructPathData(patch)
+    const { pathLogic, pathValues, paths } = constructPathData({ patch })
 
     const expectedLogic = {
         foo: ADD,
@@ -22,8 +22,11 @@ test("returns expected logic when the patch includes a lone add operation", (t) 
         foo: "baz",
     }
 
+    const expectedPaths = [["foo"]]
+
     t.deepEqual(pathLogic, expectedLogic)
     t.deepEqual(pathValues, expectedPathValues)
+    t.deepEqual(paths, expectedPaths)
 })
 
 test("returns expected logic when the patch includes an add then remove operation", (t) => {
@@ -39,11 +42,13 @@ test("returns expected logic when the patch includes an add then remove operatio
         } as RemoveOperation,
     ]
 
-    const { pathLogic, pathValues } = constructPathData(patch)
+    const { pathLogic, pathValues, paths } = constructPathData({patch})
 
     const expectedLogic = {}
     const expectedPathValues = {}
+    const expectedPaths = [["foo"]]
 
     t.deepEqual(pathLogic, expectedLogic)
     t.deepEqual(pathValues, expectedPathValues)
+    t.deepEqual(paths, expectedPaths)
 })

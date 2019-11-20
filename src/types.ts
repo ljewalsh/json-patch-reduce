@@ -8,6 +8,7 @@ export enum OPERATION_TYPE {
 }
 
 export type Path = string
+export type Paths = string[][]
 
 export interface RemoveOperation {
     op: OPERATION_TYPE.REMOVE
@@ -64,4 +65,5 @@ export interface PathValues {
 export interface PathData {
     pathValues: PathValues
     pathLogic: PathLogic
+    paths: Paths
 }

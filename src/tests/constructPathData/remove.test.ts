@@ -12,7 +12,7 @@ test("returns expected logic when the patch includes a lone remove operation", (
             } as RemoveOperation,
     ]
 
-    const { pathLogic, pathValues } = constructPathData(patch)
+    const { pathLogic, pathValues } = constructPathData({ patch })
 
     const expectedLogic = {
         foo: REMOVE,
@@ -37,7 +37,7 @@ test("returns expected logic when the patch includes an remove then an add opera
         } as AddOperation,
     ]
 
-    const { pathLogic, pathValues } = constructPathData(patch)
+    const { pathLogic, pathValues } = constructPathData({ patch })
 
     const expectedLogic = {}
     const expectedPathValues = {}

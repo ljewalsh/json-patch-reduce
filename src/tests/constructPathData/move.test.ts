@@ -13,7 +13,7 @@ test("returns expected logic when the patch includes a lone move operation", (t)
             } as MoveOperation,
     ]
 
-    const { pathLogic, pathValues } = constructPathData(patch)
+    const { pathLogic, pathValues, paths } = constructPathData({ patch })
 
     const expectedLogic = {
         foo: MOVE,
@@ -23,6 +23,9 @@ test("returns expected logic when the patch includes a lone move operation", (t)
         foo: "/bar",
     }
 
+    const expectedPaths = [[ "foo" ]]
+
     t.deepEqual(pathLogic, expectedLogic)
     t.deepEqual(pathValues, expectedPathValues)
+    t.deepEqual(paths, expectedPaths)
 })

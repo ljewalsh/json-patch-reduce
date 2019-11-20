@@ -35,7 +35,6 @@ const handleRemove = ({ currentLogic, path, pathLogic }: HandleOptions): PathLog
     switch (currentLogic) {
         case ADD:
         case ADD_REPLACE:
-        case COPY:
             return dissocPath(path, pathLogic)
         default:
             return assocPath(path, REMOVE, pathLogic)
