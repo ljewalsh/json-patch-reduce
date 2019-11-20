@@ -20,6 +20,7 @@ original path:
 ]
 
 reduced path:
+
 [
         { op: "add", path: "/bar", value: "baz" }
 ]
@@ -37,6 +38,7 @@ original path:
 ]
 
 reduced path:
+
 [
         { op: "add", path: "/bar", value: "baz" }
 ]
@@ -46,12 +48,14 @@ Correlating adds and replaces are simplified:
 
 ```
 original path:
+
 [
         { op: "add", path: "/foo", value: "baz" },
         { op: "replace", path: "/foo", value: "bar" },
 ]
 
 reduced path:
+
 [
         { op: "add", path: "/foo", value: "bar" },
 ]
@@ -61,12 +65,14 @@ Correlating adds and moves are simplified:
 
 ```
 original path:
+
 [
         { op: "add", path: "/foo", value: "bar" },
         { op: "move", path: "/baz", from: "/foo" },
 ]
 
 reduced path:
+
 [
         { op: "add", path: "/baz", value: "bar" },
 ]
@@ -76,12 +82,14 @@ Correlating moves and removes are simplified:
 
 ```
 original path:
+
 [
         { op: "move", path: "/baz", from: "/foo" },
         { op: "remove", path: "/baz" }
 ]
 
 reduced path:
+
 [
         { op: "remove", path: "/foo" },
 ]
