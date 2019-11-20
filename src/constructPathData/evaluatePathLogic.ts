@@ -1,13 +1,19 @@
 import { assocPath, dissocPath, path as ramPath } from "ramda"
 import getNestedPaths from "../getNestedPaths"
-import { AddOperation, Operation, OPERATION_TYPE, PathLogic, ReplaceOperation } from "../types"
+import {
+    AddOperation,
+    Operation,
+    OPERATION_TYPE,
+    PathLogic,
+    ReplaceOperation,
+} from "../types"
 
-const { ADD, REMOVE, REPLACE, ADD_REPLACE, MOVE, COPY } = OPERATION_TYPE
+const { ADD, REMOVE, REPLACE, ADD_REPLACE, MOVE, COPY, MOVE_REMOVE } = OPERATION_TYPE
 
 interface Options {
     path: string[]
     operation: Operation
-    pathLogic: PathLogic
+    pathLogic: PathLogic,
 }
 
 interface HandleOptions {
@@ -35,7 +41,10 @@ const handleRemove = ({ currentLogic, path, pathLogic }: HandleOptions): PathLog
     switch (currentLogic) {
         case ADD:
         case ADD_REPLACE:
+        case COPY:
             return dissocPath(path, pathLogic)
+        case MOVE:
+            return assocPath(path, MOVE_REMOVE, pathLogic)
         default:
             return assocPath(path, REMOVE, pathLogic)
     }
@@ -76,6 +85,8 @@ const evaluatePathLogic = (options: Options): PathLogic => {
             return handleReplace(handleOptions)
         case MOVE:
             return handleMove({ path, pathLogic, fromPath: operation.from })
+        case COPY:
+            return assocPath(path, COPY, pathLogic)
         default:
             throw new Error(`Unexpected operation ${operation}`)
     }

@@ -21,7 +21,11 @@ const constructPathData = ({ patch, pathLogic = {}, pathValues = {}, paths = []}
     while (patch.length > 0) {
         const operation = patch.shift() as Operation
         const nestedPaths = getNestedPaths(operation.path)
-        const updatedPathLogic = evaluatePathLogic({ pathLogic, operation, path: nestedPaths })
+        const updatedPathLogic = evaluatePathLogic({
+            operation,
+            path: nestedPaths,
+            pathLogic,
+        })
         const updatedPathValues = evaluatePathValues({
             operation,
             path: nestedPaths,
