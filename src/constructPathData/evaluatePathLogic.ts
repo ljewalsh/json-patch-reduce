@@ -52,6 +52,8 @@ const handleRemove = ({ currentLogic, path, pathLogic }: HandleOptions): PathLog
 
 const handleReplace = ({ currentLogic, path, pathLogic }: HandleOptions): PathLogic => {
     switch (currentLogic) {
+        case COPY:
+            return assocPath(path, ADD, pathLogic)
         case ADD:
             return assocPath(path, ADD_REPLACE, pathLogic)
         default:

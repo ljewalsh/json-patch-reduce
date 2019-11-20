@@ -52,3 +52,33 @@ test("returns expected logic when the patch includes an add then remove operatio
     t.deepEqual(pathValues, expectedPathValues)
     t.deepEqual(paths, expectedPaths)
 })
+
+test("returns expected logic when the patch includes an add then move operation", (t) => {
+    const patch = [
+        {
+            op: ADD,
+            path: "/foo",
+            value: "baz",
+        } as AddOperation,
+        {
+            from: "/foo",
+            op: MOVE,
+            path: "/bar",
+        } as MoveOperation,
+    ]
+
+    const { pathLogic, pathValues, paths } = constructPathData({patch})
+
+    const expectedLogic = {
+        bar: ADD,
+    }
+
+    const expectedPathValues = {
+        bar: "baz",
+    }
+    const expectedPaths = [["foo"], ["bar"]]
+
+    t.deepEqual(pathLogic, expectedLogic)
+    t.deepEqual(pathValues, expectedPathValues)
+    t.deepEqual(paths, expectedPaths)
+})

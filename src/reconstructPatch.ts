@@ -1,8 +1,8 @@
 import { isNil, map, path as ramPath, reject } from "ramda"
-import getNestedPaths from "../getNestedPaths"
-import { OPERATION_TYPE, Patch, Path, PathLogic, PathValues } from "../types"
+import getNestedPaths from "./getNestedPaths"
+import { OPERATION_TYPE, Patch, Path, PathLogic, PathValues } from "./types"
 
-const { ADD, ADD_REPLACE, REMOVE, REPLACE, MOVE, MOVE_REMOVE } = OPERATION_TYPE
+const { ADD, ADD_REPLACE, REMOVE, REPLACE, MOVE, MOVE_REMOVE, COPY } = OPERATION_TYPE
 
 interface Options {
     pathLogic: PathLogic
@@ -27,6 +27,10 @@ const reconstructPatchFromPathData = ({ pathLogic, pathValues, paths }: Options)
             case MOVE:
                 return {
                     from: ramPath(path, pathValues) as string, op: MOVE, path: formattedPath,
+                }
+            case COPY:
+                return {
+                    from: ramPath(path, pathValues) as string, op: COPY, path: formattedPath,
                 }
             case undefined:
                 break

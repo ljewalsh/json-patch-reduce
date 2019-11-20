@@ -73,6 +73,8 @@ const evaluatePathValues = (options: Options): PathValues => {
             return assocPath(path, operation.value, pathValues)
         case MOVE:
             return handleMove({ pathValues, fromPath: operation.from, path, currentLogic })
+        case COPY:
+            return assocPath(path, operation.from, pathValues)
         default:
             throw new Error(`Unexpected operation ${operation}`)
     }

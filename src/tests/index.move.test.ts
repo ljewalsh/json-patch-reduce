@@ -38,7 +38,7 @@ test("An add followed by a move is simplified", (t) => {
     t.deepEqual(expectedPatch, reducedPatch)
 })
 
-test("A replace followed by a move is maintained", (t) => {
+test("A replace followed by a move are both maintained", (t) => {
     const patch = [
         { op: REPLACE, path: "/foo", value: "bar" } as ReplaceOperation,
         { from: "/foo", op: MOVE, path: "/bar" } as MoveOperation,

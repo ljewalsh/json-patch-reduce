@@ -117,7 +117,7 @@ test("pathLogic properties with the move value evaluate to a move operation", (t
     t.deepEqual(reconstructedPatch, expectedPatch)
 })
 
-test.skip("pathLogic properties with the copy value evaluate to a copy operation", (t) => {
+test("pathLogic properties with the copy value evaluate to a copy operation", (t) => {
     const pathLogic: PathLogic  = {
         foo: COPY,
     }
