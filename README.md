@@ -4,7 +4,7 @@ A library for reducing a JSON patch (http://jsonpatch.com/)
 
 # How does it work?
 
-json-patch-reduce looks for operations in your patch that contradict each other or that can be simplified.
+json-patch-reduce looks for operations in your patch that contradict each other or that can be simplified. Works for nested paths (e.g. "/foo/bar") as well as paths with array indexes (e.g. "foo/bar/0").
 
 # Examples
 
@@ -14,7 +14,7 @@ Conflicting add and remove operations are stripped out (regardless of order):
 original patch:
 
 [
-        { op: "add", path: "/foo/bar", value: "bar" },
+        { op: "add", path: "/foo", value: "bar" },
         { op: "add", path: "/bar", value: "baz" },
         { op: "remove", path: "/foo" }
 ]
