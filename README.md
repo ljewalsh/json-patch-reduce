@@ -95,4 +95,19 @@ reduced patch:
 ]
 ```
 
+Correlating copy and replaces are simplified:
 
+```
+original patch:
+
+[
+        { op: "copy", path: "/bar", from: "/foo" },
+        { op: "replace", path: "/baz" }
+]
+
+reduced patch:
+
+[
+        { op: "add", path: "/bar", value: "/baz" },
+]
+```
