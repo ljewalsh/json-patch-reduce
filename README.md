@@ -11,7 +11,7 @@ json-patch-reduce looks for operations in your patch that contradict each other 
 Conflicting add and remove operations are stripped out (regardless of order):
 
 ```
-original path:
+original patch:
 
 [
         { op: "add", path: "/foo/bar", value: "bar" },
@@ -19,7 +19,7 @@ original path:
         { op: "remove", path: "/foo" }
 ]
 
-reduced path:
+reduced patch:
 
 [
         { op: "add", path: "/bar", value: "baz" }
@@ -29,7 +29,7 @@ reduced path:
 Conflicting replace and remove operations are stripped out:
 
 ```
-original path:
+original patch:
 
 [
         { op: "replace", path: "/foo/bar", value: "bar" },
@@ -37,7 +37,7 @@ original path:
         { op: "remove", path: "/foo" }
 ]
 
-reduced path:
+reduced patch:
 
 [
         { op: "add", path: "/bar", value: "baz" }
@@ -47,14 +47,14 @@ reduced path:
 Correlating adds and replaces are simplified:
 
 ```
-original path:
+original patch:
 
 [
         { op: "add", path: "/foo", value: "baz" },
         { op: "replace", path: "/foo", value: "bar" },
 ]
 
-reduced path:
+reduced patch:
 
 [
         { op: "add", path: "/foo", value: "bar" },
@@ -64,14 +64,14 @@ reduced path:
 Correlating adds and moves are simplified:
 
 ```
-original path:
+original patch:
 
 [
         { op: "add", path: "/foo", value: "bar" },
         { op: "move", path: "/baz", from: "/foo" },
 ]
 
-reduced path:
+reduced patch:
 
 [
         { op: "add", path: "/baz", value: "bar" },
@@ -81,14 +81,14 @@ reduced path:
 Correlating moves and removes are simplified:
 
 ```
-original path:
+original patch:
 
 [
         { op: "move", path: "/baz", from: "/foo" },
         { op: "remove", path: "/baz" }
 ]
 
-reduced path:
+reduced patch:
 
 [
         { op: "remove", path: "/foo" },
