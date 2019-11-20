@@ -1,5 +1,5 @@
 import test from "ava"
-import reconstructPatch from "../../reconstructPatch"
+import reconstructPatch from "../reconstructPatch"
 import {
     AddOperation,
     CopyOperation,
@@ -10,7 +10,7 @@ import {
     PathValues,
     RemoveOperation,
     ReplaceOperation,
-} from "../../types"
+} from "../types"
 
 const { ADD, REMOVE, REPLACE, ADD_REPLACE, MOVE, COPY } = OPERATION_TYPE
 

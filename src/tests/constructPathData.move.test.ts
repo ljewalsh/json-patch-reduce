@@ -1,6 +1,6 @@
 import test from "ava"
-import constructPathData from "../../constructPathData"
-import { AddOperation, MoveOperation, OPERATION_TYPE, RemoveOperation, ReplaceOperation } from "../../types"
+import constructPathData from "../constructPathData"
+import { AddOperation, MoveOperation, OPERATION_TYPE, RemoveOperation, ReplaceOperation } from "../types"
 
 const { ADD, REPLACE, REMOVE, ADD_REPLACE, MOVE } = OPERATION_TYPE
 
