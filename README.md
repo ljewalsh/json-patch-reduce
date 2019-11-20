@@ -72,4 +72,19 @@ reduced path:
 ]
 ```
 
+Correlating moves and removes are simplified:
+
+```
+original path:
+[
+        { op: "move", path: "/baz", from: "/foo" },
+        { op: "remove", path: "/baz" }
+]
+
+reduced path:
+[
+        { op: "remove", path: "/foo" },
+]
+```
+
 
