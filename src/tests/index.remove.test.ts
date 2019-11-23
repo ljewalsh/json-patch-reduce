@@ -1,8 +1,8 @@
 import test from "ava"
 import reducePatch from "../"
-import { AddOperation, OPERATION_TYPE, Patch, RemoveOperation, ReplaceOperation } from "../types"
+import { AddOperation, CopyOperation, OPERATION_TYPE, Patch, RemoveOperation, ReplaceOperation } from "../types"
 
-const { ADD, REPLACE, REMOVE, ADD_REPLACE } = OPERATION_TYPE
+const { ADD, COPY, REPLACE, REMOVE } = OPERATION_TYPE
 
 test("A lone remove-operation is maintainted", (t) => {
     const patch = [
@@ -13,7 +13,7 @@ test("A lone remove-operation is maintainted", (t) => {
     t.deepEqual(patch, reducedPatch)
 })
 
-test("A remove-operation is stripped out when a later add-operation conflicts it (the conflicting add-operation is also stripped out)", (t) => {
+test("Conflicting remove and then add operations are stripped out", (t) => {
 
     const patch = [
         { op: REMOVE, path: "/foo" } as RemoveOperation,
@@ -31,11 +31,12 @@ test("A remove-operation is stripped out when a later add-operation conflicts it
 })
 
 test("A remove operation with nested\
-    paths strips out all add-operations and replace-operations within the path", (t) => {
+    paths strips out all add, replace and copy operations within the path", (t) => {
     const patch = [
         { op: ADD, path: "/foo", value: "bar" } as AddOperation,
         { op: ADD, path: "/foo/bar", value: "baz" } as AddOperation,
         { op: REPLACE, path: "/foo/bar", value: "bar" } as ReplaceOperation,
+        { from: "/foo/bar", op: COPY, path: "/foo/bar/baz" } as CopyOperation,
         { op: REMOVE, path: "/foo" } as RemoveOperation,
     ]
 

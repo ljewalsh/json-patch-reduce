@@ -6,7 +6,7 @@ export enum OPERATION_TYPE {
     MOVE = "move",
     COPY = "copy",
     MOVE_REMOVE = "move-remove",
-    REPLACE_COPY = "replace-copy"
+    REPLACE_COPY = "replace-copy",
 }
 
 export type Path = string

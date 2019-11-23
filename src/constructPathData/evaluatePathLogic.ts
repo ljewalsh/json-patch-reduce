@@ -64,11 +64,16 @@ const handleReplace = ({ currentLogic, path, pathLogic }: HandleOptions): PathLo
 const handleMove = ({ path, pathLogic, fromPath }: HandleMoveOptions): PathLogic => {
     const nestedFrom = getNestedPaths(fromPath)
     const currentLogic = ramPath(nestedFrom, pathLogic)
+
+    let removed: PathLogic
     switch (currentLogic) {
         case ADD:
         case ADD_REPLACE:
-            const removed: PathLogic = dissocPath(nestedFrom, pathLogic)
+            removed  = dissocPath(nestedFrom, pathLogic)
             return assocPath(path, currentLogic, removed)
+        case COPY:
+            removed = dissocPath(nestedFrom, pathLogic)
+            return assocPath(nestedFrom, currentLogic, pathLogic)
         default:
             return assocPath(path, MOVE, pathLogic)
     }

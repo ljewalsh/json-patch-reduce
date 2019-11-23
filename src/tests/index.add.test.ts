@@ -1,8 +1,8 @@
 import test from "ava"
 import reducePatch from "../"
-import { AddOperation, OPERATION_TYPE, RemoveOperation, ReplaceOperation } from "../types"
+import { AddOperation, CopyOperation, MoveOperation, OPERATION_TYPE, RemoveOperation, ReplaceOperation } from "../types"
 
-const { ADD, REMOVE, REPLACE, ADD_REPLACE } = OPERATION_TYPE
+const { ADD, COPY, REMOVE, REPLACE, MOVE } = OPERATION_TYPE
 
 test("A lone add-operation is maintainted", (t) => {
     const patch = [
@@ -13,7 +13,7 @@ test("A lone add-operation is maintainted", (t) => {
     t.deepEqual(patch, reducedPatch)
 })
 
-test("An add-operation is stripped out when a later remove-operation conflicts it (the conflicting remove-operation is also stripped out)", (t) => {
+test("Conflicting add and remove operations are stripped out", (t) => {
 
     const patch = [
         { op: ADD, path: "/foo", value: "bar" } as AddOperation,
@@ -47,4 +47,27 @@ test("correlating add and replace operations are simplified", (t) => {
     const reducedPatch = reducePatch(patch)
 
     t.deepEqual(expectedPath, reducedPatch)
+})
+
+test("An add followed by a move is simplified", (t) => {
+    const patch = [
+        { op: ADD, path: "/foo", value: "bar" } as AddOperation,
+        { from: "/foo", op: MOVE, path: "/bar" } as MoveOperation,
+    ]
+
+    const expectedPatch = [
+        { op: ADD, path: "/bar", value: "bar" } as AddOperation ]
+
+    const reducedPatch = reducePatch(patch)
+    t.deepEqual(expectedPatch, reducedPatch)
+})
+
+test("An add followed by a copy is maintained", (t) => {
+    const patch = [
+        { op: ADD, path: "/foo", value: "bar" } as AddOperation,
+        { from: "/foo", op: COPY, path: "/bar" } as CopyOperation,
+    ]
+
+    const reducedPatch = reducePatch(patch)
+    t.deepEqual(patch, reducedPatch)
 })
