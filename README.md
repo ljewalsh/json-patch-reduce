@@ -111,3 +111,20 @@ reduced patch:
         { op: "add", path: "/bar", value: "/baz" },
 ]
 ```
+
+Correlating copy and moves are simplified:
+
+```
+original patch:
+
+[
+        { op: "copy", path: "/bar", from: "/foo" },
+        { op: "move", path: "/bop", from: "bar" }
+]
+
+reduced patch:
+
+[
+        { op: "copy", path: "/bop", from: "/foo" },
+]
+```

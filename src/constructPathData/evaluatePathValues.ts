@@ -2,7 +2,7 @@ import { assocPath, dissocPath, path as ramPath } from "ramda"
 import getNestedPaths from "../getNestedPaths"
 import { AddOperation, Operation, OPERATION_TYPE, PathData, PathLogic, PathValues, ReplaceOperation } from "../types"
 
-const { ADD, REMOVE, REPLACE, ADD_REPLACE, MOVE, COPY, MOVE_REMOVE } = OPERATION_TYPE
+const { ADD, REMOVE, REPLACE, ADD_REPLACE, MOVE, COPY, MOVE_REMOVE, COPY_MOVE } = OPERATION_TYPE
 
 interface Options {
     path: string[]
@@ -49,11 +49,12 @@ const handleAdd = ({ currentLogic, path, value, pathValues }: HandleAddOperation
 }
 
 const handleMove = ({ path, pathValues, fromPath, currentLogic }: HandleMoveOptions): PathValues => {
+    const nestedFrom = getNestedPaths(fromPath)
+    const currentValue = ramPath(nestedFrom, pathValues)
+    const removed: PathValues = dissocPath(nestedFrom, pathValues)
     switch (currentLogic) {
         case ADD:
-            const nestedFrom = getNestedPaths(fromPath)
-            const currentValue = ramPath(nestedFrom, pathValues)
-            const removed: PathValues = dissocPath(nestedFrom, pathValues)
+        case COPY_MOVE:
             return assocPath(path, currentValue, removed)
         default:
             return assocPath(path, fromPath, pathValues)

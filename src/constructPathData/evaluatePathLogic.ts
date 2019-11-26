@@ -8,7 +8,7 @@ import {
     ReplaceOperation,
 } from "../types"
 
-const { ADD, REMOVE, REPLACE, ADD_REPLACE, MOVE, COPY, MOVE_REMOVE } = OPERATION_TYPE
+const { ADD, REMOVE, REPLACE, ADD_REPLACE, MOVE, COPY, MOVE_REMOVE, COPY_MOVE } = OPERATION_TYPE
 
 interface Options {
     path: string[]
@@ -64,16 +64,14 @@ const handleReplace = ({ currentLogic, path, pathLogic }: HandleOptions): PathLo
 const handleMove = ({ path, pathLogic, fromPath }: HandleMoveOptions): PathLogic => {
     const nestedFrom = getNestedPaths(fromPath)
     const currentLogic = ramPath(nestedFrom, pathLogic)
+    const removed: PathLogic = dissocPath(nestedFrom, pathLogic)
 
-    let removed: PathLogic
     switch (currentLogic) {
         case ADD:
         case ADD_REPLACE:
-            removed  = dissocPath(nestedFrom, pathLogic)
             return assocPath(path, currentLogic, removed)
         case COPY:
-            removed = dissocPath(nestedFrom, pathLogic)
-            return assocPath(nestedFrom, currentLogic, pathLogic)
+            return assocPath(path, COPY_MOVE, removed)
         default:
             return assocPath(path, MOVE, pathLogic)
     }
